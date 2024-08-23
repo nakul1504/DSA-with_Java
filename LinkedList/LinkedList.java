@@ -14,6 +14,8 @@ class Node{
         this.next = null;
     }
 }
+
+// Linked List
 public class LinkedList {
 
     private static Node convertArrayToLinkedList(int[] arr){
