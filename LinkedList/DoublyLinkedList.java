@@ -1,6 +1,8 @@
 package LinkedList;
 
 
+import javax.swing.plaf.metal.MetalButtonUI;
+
 class NodeDLL{
     int data;
     NodeDLL next;
@@ -21,9 +23,8 @@ class NodeDLL{
 public class DoublyLinkedList {
 
     private static NodeDLL convertArrayToDoublyLinkedList(int[] arr){
-        if(arr == null || arr.length == 0){
-            return null;
-        }
+
+
         NodeDLL head = new NodeDLL(arr[0]);
         NodeDLL prev = head;
 
@@ -247,12 +248,36 @@ public class DoublyLinkedList {
        return head;
 
     }
+
+    private static NodeDLL reverseADoublyLinkedList(NodeDLL head){
+        if(head.next == null){
+            return head;
+        }
+
+        if(head == null){
+            return null;
+        }
+
+        NodeDLL current = head;
+        NodeDLL last = null;
+
+        while (current != null){
+            last = current.back;
+            current.back = current.next;
+            current.next = last;
+
+            current = current.back;
+        }
+
+        head = last.back;
+        return head;
+    }
     public static void main(String[] args) {
         int[] arr = {2, 6, 7, 8};
 
         NodeDLL head = convertArrayToDoublyLinkedList(arr);
 
-        head = insertAfterKthNode(head, 12, 2);
+        head = reverseADoublyLinkedList(head);
         print(head);
     }
 }
