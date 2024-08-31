@@ -228,13 +228,62 @@ public class LinkedList {
 
         return head;
     }
+
+    private static Node findMiddleOfALinkedList(Node head){
+        if(head == null){
+            return null;
+        }
+        Node fast = head;
+        Node slow = head;
+
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    private static Node reverseALinkedList(Node head){
+        if(head == null){
+            return null;
+        }
+
+        if(head.next == null){
+            return head;
+        }
+
+        Node temp = head;
+        Node prev = null;
+
+        while (temp != null){
+            Node front = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = front;
+        }
+
+        return prev;
+    }
+
+    private static Node reverseALinkedListRecursively(Node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node newHead = reverseALinkedList(head.next);
+        Node front = head.next;
+        front.next = head;
+        head.next = null;
+
+        return newHead;
+    }
     public static void main(String[] args) {
         int[] arr = {2,8,9,0,10};
 
         // Conversion of array to a Linked list
         Node head = convertArrayToLinkedList(arr);
 
-        head = insertAfterTheElement(head,8,90);
+        head = reverseALinkedListRecursively(head);
         Node temp = head;
 
         while(temp != null){
