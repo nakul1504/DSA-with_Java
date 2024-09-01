@@ -31,6 +31,13 @@ public class LinkedList {
         return head;
     }
 
+    private static void printLinkedList(Node head){
+        while (head != null){
+            System.out.print(head.data + " ");
+            head = head.next;
+        }
+    }
+
     private static int lengthOfLinkedList(Node head){
         int count = 0;
 
@@ -243,6 +250,66 @@ public class LinkedList {
         return slow;
     }
 
+    private static Node findMiddleOfALinkedListModified(Node head){
+        if (head == null || head.next == null){
+            return head;
+        }
+
+        Node slow = head;
+        Node fast = head;
+
+        fast = fast.next;
+
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    private static Node mergeTwoSortedLists(Node head1, Node head2){
+        Node dummyNode = new Node(-1);
+        Node temp = dummyNode;
+
+        while(head1 != null && head2 != null){
+            if (head1.data < head2.data){
+                temp.next = head1;
+                temp = head1;
+                head1 = head1.next;
+            }else{
+                temp.next = head2;
+                temp = head2;
+                head2 = head2.next;
+            }
+        }
+
+        if (head1 != null){
+            temp.next = head1;
+        }else{
+            temp.next = head2;
+        }
+
+        return dummyNode.next;
+    }
+
+    private static Node sortALinkedList(Node head){
+        if (head == null || head.next == null){
+            return head;
+        }
+
+        Node middleNode = findMiddleOfALinkedListModified(head);
+        Node rightNode = middleNode.next;
+        middleNode.next = null;
+
+        Node leftNode = head;
+
+        leftNode = sortALinkedList(leftNode);
+        rightNode = sortALinkedList(rightNode);
+
+        return mergeTwoSortedLists(leftNode, rightNode);
+    }
+
     private static Node reverseALinkedList(Node head){
         if(head == null){
             return null;
@@ -278,17 +345,12 @@ public class LinkedList {
         return newHead;
     }
     public static void main(String[] args) {
-        int[] arr = {2,8,9,0,10};
+        int[] arr = {2,9,8,0,10};
 
         // Conversion of array to a Linked list
         Node head = convertArrayToLinkedList(arr);
 
-        head = reverseALinkedListRecursively(head);
-        Node temp = head;
-
-        while(temp != null){
-            System.out.print(temp.data + " ");
-            temp = temp.next;
-        }
+        head = sortALinkedList(head);
+        printLinkedList(head);
     }
 }
