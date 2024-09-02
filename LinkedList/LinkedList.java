@@ -344,13 +344,83 @@ public class LinkedList {
 
         return newHead;
     }
+
+    private static Node sortAListOf0s1sAnd2s(Node head){
+        if (head == null || head.next == null){
+            return head;
+        }
+
+        Node zeroHead = new Node(-1);
+        Node zero = zeroHead;
+
+        Node oneHead = new Node(-1);
+        Node one = oneHead;
+
+        Node twoHead = new Node(-1);
+        Node two = twoHead;
+
+        Node temp = head;
+
+        while (temp != null){
+            if (temp.data == 0){
+                zero.next = temp;
+                zero = temp;
+            } else if (temp.data == 1) {
+                one.next = temp;
+                one = temp;
+            }else {
+                two.next = temp;
+                two = temp;
+            }
+
+            temp = temp.next;
+        }
+
+        zero.next = (oneHead.next != null) ? oneHead.next : twoHead.next;
+        one.next = twoHead.next;
+        two.next = null;
+
+        return zeroHead.next;
+    }
+
+    private static int helper(Node temp){
+        if(temp == null){
+            return 1;
+        }
+
+        int carry = helper(temp.next);
+
+        temp.data = temp.data + carry;
+        if(temp.data < 10){
+            return 0;
+        }
+        temp.data = 0;
+        return 1;
+    }
+
+    private static Node add1toALinkedList(Node head){
+        if (head == null){
+            return null;
+        }
+
+        int carry = helper(head);
+
+        if(carry == 1){
+            Node newNode = new Node(1);
+            newNode.next = head;
+            return newNode;
+        }
+
+        return head;
+    }
+
     public static void main(String[] args) {
-        int[] arr = {2,9,8,0,10};
+        int[] arr = {9,9};
 
         // Conversion of array to a Linked list
         Node head = convertArrayToLinkedList(arr);
 
-        head = sortALinkedList(head);
+        head = add1toALinkedList(head);
         printLinkedList(head);
     }
 }

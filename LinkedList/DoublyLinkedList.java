@@ -273,12 +273,41 @@ public class DoublyLinkedList {
         head = last.back;
         return head;
     }
+
+    private static NodeDLL deleteTheOccurrencesOfAKey(NodeDLL head, int key){
+        if(head == null){
+            return null;
+        }
+        NodeDLL temp = head;
+
+        while(temp != null){
+            if(temp.data == key){
+                if(temp == head){
+                    head = head.next;
+                }
+
+                NodeDLL nextNode = temp.next;
+                NodeDLL prevNode = temp.back;
+
+                if (nextNode != null) nextNode.back = prevNode;
+                if (prevNode != null) prevNode.next = nextNode;
+
+                temp = nextNode;
+            }else{
+                temp = temp.next;
+            }
+        }
+
+        return head;
+
+
+    }
     public static void main(String[] args) {
-        int[] arr = {2, 6, 7, 8};
+        int[] arr = {6 ,2, 6, 7, 6};
 
         NodeDLL head = convertArrayToDoublyLinkedList(arr);
 
-        head = reverseADoublyLinkedList(head);
+        head = deleteTheOccurrencesOfAKey(head, 6);
         print(head);
     }
 }

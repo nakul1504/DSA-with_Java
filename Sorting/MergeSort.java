@@ -63,4 +63,6 @@ public class MergeSort {
         System.out.println("Array after sorting");
         printArray(arr);
     }
+
+//    Complexity is O(nlogn)
 }
